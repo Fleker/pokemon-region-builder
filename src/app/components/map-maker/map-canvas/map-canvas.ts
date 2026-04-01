@@ -195,8 +195,8 @@ export class MapCanvasComponent implements AfterViewInit, OnDestroy {
     ctx.save();
     ctx.translate(Math.round(this.panX), Math.round(this.panY));
 
-    this.drawBackground(ctx, map);
-    this.drawWater(ctx, map);     // water underneath terrain
+    this.drawWater(ctx, map);
+    this.drawBackground(ctx, map); // background image above water
     this.drawTerrain(ctx, map);
     this.drawPaths(ctx, map);
     this.drawLandmarks(ctx, map);
