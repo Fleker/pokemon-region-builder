@@ -1,0 +1,231 @@
+<div class="pe-section">
+  <div class="pe-header">
+    <span class="panel-title">Custom Pokémon ({{ customPokemon().length }})</span>
+    <button class="btn-primary btn-sm" (click)="openNew()">+ Create Pokémon</button>
+  </div>
+
+  <div class="pe-list">
+    @for (cp of customPokemon(); track cp.id) {
+      <div class="pe-item">
+        @if (cp.spriteDataUrl) {
+          <img [src]="cp.spriteDataUrl" [alt]="cp.name" width="40" height="40" class="pe-sprite" />
+        } @else {
+          <div class="pe-no-sprite">?</div>
+        }
+        <div class="pe-item-info">
+          <div class="pe-item-name">{{ cp.name }}
+            @if (cp.isRegionalForm) { <span class="chip regional-tag">Regional</span> }
+          </div>
+          <div class="pe-item-types">
+            @for (t of cp.types; track t) {
+              @if (t) {
+                <span class="type-badge" [style.background]="typeColor(t)">{{ t }}</span>
+              }
+            }
+          </div>
+        </div>
+        <button class="btn-icon" (click)="openEdit(cp.id)" title="Edit">✏</button>
+        <button class="btn-icon danger" (click)="deleteCustom(cp.id)" title="Delete">🗑</button>
+      </div>
+    }
+    @if (customPokemon().length === 0) {
+      <p class="pe-empty">No custom Pokémon yet. Create one to add unique species to your region!</p>
+    }
+  </div>
+</div>
+
+<!-- Editor modal -->
+@if (showEditor()) {
+  <app-modal
+    [title]="editTarget() ? 'Edit Pokémon' : 'Create Pokémon'"
+    [wide]="true"
+    (closed)="showEditor.set(false)"
+  >
+    <div class="pe-form">
+      <!-- Left column -->
+      <div class="pe-col">
+        <!-- Sprite -->
+        <div class="pe-sprite-box" (click)="uploadSprite()">
+          @if (spriteDataUrl()) {
+            <img [src]="spriteDataUrl()!" alt="Sprite" />
+          } @else {
+            <div class="pe-sprite-placeholder">Click to upload sprite</div>
+          }
+        </div>
+
+        <!-- Basic info -->
+        <div class="form-group">
+          <label>Name *</label>
+          <input type="text" [value]="name()" (input)="name.set($any($event.target).value)" maxlength="30" placeholder="e.g. Flamewolf" />
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label>Type 1</label>
+            <select [value]="type1()" (change)="type1.set($any($event.target).value)">
+              @for (t of types; track t) {
+                <option [value]="t">{{ t }}</option>
+              }
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Type 2</label>
+            <select [value]="type2() ?? ''" (change)="type2.set($any($event.target).value || null)">
+              <option value="">— None —</option>
+              @for (t of types; track t) {
+                <option [value]="t">{{ t }}</option>
+              }
+            </select>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label>Height (m)</label>
+            <input type="number" min="0.1" max="20" step="0.1"
+              [value]="height()" (input)="height.set(+$any($event.target).value)" />
+          </div>
+          <div class="form-group">
+            <label>Weight (kg)</label>
+            <input type="number" min="0.1" max="999" step="0.1"
+              [value]="weight()" (input)="weight.set(+$any($event.target).value)" />
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>
+            <input type="checkbox" [checked]="isRegionalForm()" (change)="isRegionalForm.set($any($event.target).checked)" />
+            Regional Form
+          </label>
+        </div>
+      </div>
+
+      <!-- Right column -->
+      <div class="pe-col">
+        <!-- Stats -->
+        <div class="panel mb-12">
+          <div class="panel-title">Base Stats (Total: {{ statTotal() }})</div>
+          @for (key of statKeys; track key) {
+            <div class="stat-row">
+              <span class="stat-label">{{ statLabels[key] }}</span>
+              <input type="range" min="1" max="255"
+                [value]="stats()[key]"
+                (input)="setStat(key, +$any($event.target).value)"
+              />
+              <span class="stat-val">{{ stats()[key] }}</span>
+            </div>
+          }
+        </div>
+
+        <!-- Moves -->
+        <div class="panel mb-12">
+          <div class="panel-title">Moves ({{ moves().length }})</div>
+          <div class="pe-tags">
+            @for (m of moves(); track m) {
+              <span class="chip">{{ getMoveName(m) }} <button class="btn-icon micro" (click)="removeMove(m)">✕</button></span>
+            }
+          </div>
+          <div class="form-row" style="margin-top:6px">
+            <div class="form-group" style="margin:0;flex:1">
+              <input type="text" [value]="moveInput()" (input)="moveInput.set($any($event.target).value)"
+                placeholder="Move name..." (keydown.enter)="addMove()" />
+            </div>
+            <button class="btn-secondary" style="flex-shrink:0" (click)="addMove()">Add</button>
+            <button class="btn-ghost" style="flex-shrink:0" (click)="showMoveEditor.set(true)">+ Custom</button>
+          </div>
+        </div>
+
+        <!-- Abilities -->
+        <div class="panel mb-12">
+          <div class="panel-title">Abilities ({{ abilities().length }})</div>
+          <div class="pe-tags">
+            @for (a of abilities(); track a) {
+              <span class="chip">{{ getAbilityName(a) }} <button class="btn-icon micro" (click)="removeAbility(a)">✕</button></span>
+            }
+          </div>
+          <div class="form-row" style="margin-top:6px">
+            <div class="form-group" style="margin:0;flex:1">
+              <input type="text" [value]="abilityInput()" (input)="abilityInput.set($any($event.target).value)"
+                placeholder="Ability name..." (keydown.enter)="addAbility()" />
+            </div>
+            <button class="btn-secondary" style="flex-shrink:0" (click)="addAbility()">Add</button>
+            <button class="btn-ghost" style="flex-shrink:0" (click)="showAbilityEditor.set(true)">+ Custom</button>
+          </div>
+        </div>
+
+        <div class="pe-actions">
+          <button class="btn-ghost" (click)="showEditor.set(false)">Cancel</button>
+          <button class="btn-success" (click)="save()" [disabled]="!name().trim()">
+            {{ editTarget() ? 'Save Changes' : 'Create & Add to Dex' }}
+          </button>
+        </div>
+      </div>
+    </div>
+  </app-modal>
+}
+
+<!-- Custom Move editor -->
+@if (showMoveEditor()) {
+  <app-modal title="Create Custom Move" (closed)="showMoveEditor.set(false)">
+    <div class="form-group">
+      <label>Move Name *</label>
+      <input type="text" [value]="newMove().name" (input)="newMove.update(m => ({...m, name: $any($event.target).value}))" />
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label>Type</label>
+        <select [value]="newMove().type" (change)="newMove.update(m => ({...m, type: $any($event.target).value}))">
+          @for (t of types; track t) { <option [value]="t">{{ t }}</option> }
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Category</label>
+        <select [value]="newMove().category" (change)="newMove.update(m => ({...m, category: $any($event.target).value}))">
+          <option value="physical">Physical</option>
+          <option value="special">Special</option>
+          <option value="status">Status</option>
+        </select>
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label>Power</label>
+        <input type="number" min="0" max="250" [value]="newMove().power ?? ''" (input)="newMove.update(m => ({...m, power: $any($event.target).value ? +$any($event.target).value : null}))" placeholder="—" />
+      </div>
+      <div class="form-group">
+        <label>Accuracy</label>
+        <input type="number" min="0" max="100" [value]="newMove().accuracy ?? ''" (input)="newMove.update(m => ({...m, accuracy: $any($event.target).value ? +$any($event.target).value : null}))" placeholder="—" />
+      </div>
+      <div class="form-group">
+        <label>PP</label>
+        <input type="number" min="1" max="64" [value]="newMove().pp" (input)="newMove.update(m => ({...m, pp: +$any($event.target).value}))" />
+      </div>
+    </div>
+    <div class="form-group">
+      <label>Description</label>
+      <textarea rows="2" [value]="newMove().description" (input)="newMove.update(m => ({...m, description: $any($event.target).value}))"></textarea>
+    </div>
+    <div class="pe-actions">
+      <button class="btn-ghost" (click)="showMoveEditor.set(false)">Cancel</button>
+      <button class="btn-success" (click)="saveCustomMove()" [disabled]="!newMove().name?.trim()">Save Move</button>
+    </div>
+  </app-modal>
+}
+
+<!-- Custom Ability editor -->
+@if (showAbilityEditor()) {
+  <app-modal title="Create Custom Ability" (closed)="showAbilityEditor.set(false)">
+    <div class="form-group">
+      <label>Ability Name *</label>
+      <input type="text" [value]="newAbility().name" (input)="newAbility.update(a => ({...a, name: $any($event.target).value}))" />
+    </div>
+    <div class="form-group">
+      <label>Description</label>
+      <textarea rows="3" [value]="newAbility().description" (input)="newAbility.update(a => ({...a, description: $any($event.target).value}))"></textarea>
+    </div>
+    <div class="pe-actions">
+      <button class="btn-ghost" (click)="showAbilityEditor.set(false)">Cancel</button>
+      <button class="btn-success" (click)="saveCustomAbility()" [disabled]="!newAbility().name?.trim()">Save Ability</button>
+    </div>
+  </app-modal>
+}

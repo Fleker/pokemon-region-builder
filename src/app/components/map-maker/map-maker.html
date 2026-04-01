@@ -1,0 +1,19 @@
+<div class="map-maker">
+  <app-layer-panel
+    [drawingState]="drawingState()"
+    (drawingStateChange)="onDrawingStateChange($event)"
+  ></app-layer-panel>
+
+  <app-map-canvas
+    [drawingState]="drawingState()"
+    (landmarkSelected)="onLandmarkSelected($event)"
+    (exportReady)="onExportReady($event)"
+  ></app-map-canvas>
+</div>
+
+@if (selectedLandmarkId()) {
+  <app-landmark-editor
+    [landmarkId]="selectedLandmarkId()"
+    (closed)="onLandmarkEditorClosed()"
+  ></app-landmark-editor>
+}

@@ -1,0 +1,71 @@
+.le-root {
+  display: flex;
+  gap: 16px;
+}
+
+.le-details {
+  flex: 0 0 280px;
+  min-width: 0;
+}
+
+.le-selector {
+  flex: 1;
+  min-width: 0;
+  max-height: 500px;
+  display: flex;
+  flex-direction: column;
+}
+
+.le-section-title {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--color-text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.btn-sm { padding: 3px 8px; font-size: 11px; }
+
+.le-pokemon-list {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  max-height: 200px;
+  overflow-y: auto;
+  margin-bottom: 12px;
+}
+
+.le-pkmn-chip {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: var(--color-bg);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  padding: 3px 6px;
+}
+
+.le-pkmn-chip img {
+  width: 32px;
+  height: 32px;
+  image-rendering: pixelated;
+}
+
+.le-pkmn-chip span {
+  flex: 1;
+  font-size: 12px;
+}
+
+.empty-hint {
+  font-size: 12px;
+  color: var(--color-text-muted);
+  padding: 8px 0;
+}
+
+.full-w { width: 100%; }
+.danger { color: var(--color-error); border-color: var(--color-error); }
+.danger:hover { background: rgba(252, 129, 129, 0.1); filter: none; }

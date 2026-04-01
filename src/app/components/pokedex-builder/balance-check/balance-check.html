@@ -1,0 +1,52 @@
+<div class="bc-root">
+  <button class="bc-toggle" (click)="expanded.update(v => !v)">
+    <span class="panel-title" style="margin:0">Balance Check</span>
+    <span class="bc-badges">
+      @if (errorCount() > 0) {
+        <span class="bc-badge error">{{ errorCount() }} errors</span>
+      }
+      @if (warningCount() > 0) {
+        <span class="bc-badge warning">{{ warningCount() }} warnings</span>
+      }
+      @if (errorCount() === 0 && warningCount() === 0 && state.pokedex().length > 0) {
+        <span class="bc-badge ok">All clear ✓</span>
+      }
+    </span>
+    <span class="bc-chevron">{{ expanded() ? '▲' : '▼' }}</span>
+  </button>
+
+  @if (expanded()) {
+    <div class="bc-body">
+      <!-- Type distribution -->
+      <div class="bc-section-title">Type Distribution</div>
+      <div class="bc-type-bars">
+        @for (tc of typeCounts(); track tc.type) {
+          <div class="bc-type-row" [class.bc-warn]="tc.warning">
+            <span class="bc-type-name">
+              <span class="type-badge" [style.background]="tc.color">{{ tc.type }}</span>
+            </span>
+            <div class="bc-bar-wrap">
+              <div class="bc-bar" [style.width.%]="tc.percent" [style.background]="tc.color"></div>
+            </div>
+            <span class="bc-count">{{ tc.count }}</span>
+          </div>
+        }
+        @if (typeCounts().length === 0) {
+          <p class="bc-empty">Add Pokémon to the Pokédex to see type distribution.</p>
+        }
+      </div>
+
+      <!-- Issues -->
+      @if (coverageIssues().length > 0) {
+        <div class="bc-section-title" style="margin-top:12px">Issues</div>
+        <div class="bc-issues">
+          @for (issue of coverageIssues(); track $index) {
+            <div class="bc-issue" [class.bc-issue-error]="issue.severity === 'error'" [class.bc-issue-warn]="issue.severity === 'warning'">
+              {{ issue.severity === 'error' ? '⛔' : '⚠' }} {{ issue.message }}
+            </div>
+          }
+        </div>
+      }
+    </div>
+  }
+</div>

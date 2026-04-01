@@ -1,0 +1,144 @@
+.app-header {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 0 16px;
+  height: 56px;
+  background: linear-gradient(90deg, #0d1b2a 0%, #1a1a2e 100%);
+  border-bottom: 2px solid var(--color-accent);
+  flex-shrink: 0;
+  user-select: none;
+}
+
+.header-logo {
+  flex-shrink: 0;
+}
+
+.logo-text {
+  font-family: var(--font-pixel);
+  font-size: 10px;
+  color: var(--color-accent2);
+  letter-spacing: 1px;
+}
+
+.header-region {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  min-width: 160px;
+}
+
+.region-name-btn {
+  background: transparent;
+  border: 1px dashed transparent;
+  color: var(--color-text);
+  font-size: 14px;
+  font-weight: 700;
+  padding: 4px 8px;
+  border-radius: var(--radius-sm);
+  max-width: 180px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.region-name-btn:hover {
+  border-color: var(--color-border);
+  filter: none;
+}
+
+.edit-icon {
+  font-size: 10px;
+  color: var(--color-text-muted);
+  margin-left: 4px;
+}
+
+.region-name-input {
+  width: 180px;
+  font-size: 14px;
+  font-weight: 700;
+  padding: 4px 8px;
+  background: var(--color-bg);
+  border: 1px solid var(--color-accent);
+}
+
+.unsaved-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--color-warning);
+  flex-shrink: 0;
+}
+
+.header-tabs {
+  display: flex;
+  gap: 4px;
+  margin: 0 auto;
+}
+
+.tab-btn {
+  background: transparent;
+  color: var(--color-text-muted);
+  border: 1px solid transparent;
+  border-radius: var(--radius-sm);
+  padding: 6px 16px;
+  font-size: 13px;
+  transition: all 0.15s;
+}
+
+.tab-btn:hover {
+  color: var(--color-text);
+  border-color: var(--color-border);
+  filter: none;
+}
+
+.tab-btn.active {
+  color: var(--color-text);
+  background: var(--color-panel);
+  border-color: var(--color-accent);
+}
+
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
+.export-menu-wrap {
+  position: relative;
+}
+
+.export-dropdown {
+  position: absolute;
+  top: calc(100% + 6px);
+  right: 0;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  min-width: 200px;
+  z-index: 500;
+  overflow: hidden;
+}
+
+.export-dropdown button {
+  display: block;
+  width: 100%;
+  text-align: left;
+  background: transparent;
+  color: var(--color-text);
+  padding: 10px 14px;
+  border-radius: 0;
+  font-weight: 600;
+}
+
+.export-dropdown button:hover {
+  background: var(--color-panel);
+  filter: none;
+}
+
+.export-dropdown hr {
+  border-color: var(--color-border);
+  margin: 0;
+}

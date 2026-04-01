@@ -1,0 +1,82 @@
+<div class="app-shell">
+  <app-header
+    [mode]="mode()"
+    (modeChange)="onModeChange($event)"
+    (newRegion)="openNewRegionDialog()"
+    (canvasExportRequest)="onCanvasExportRequest()"
+  ></app-header>
+
+  <main class="app-content">
+    @if (mode() === 'map') {
+      <app-map-maker></app-map-maker>
+    }
+    @if (mode() === 'dex') {
+      <app-pokedex-builder></app-pokedex-builder>
+    }
+  </main>
+</div>
+
+<!-- New Region Dialog -->
+@if (showNewRegionDialog()) {
+  <app-modal title="New Region" (closed)="showNewRegionDialog.set(false)">
+    <div class="form-group">
+      <label>Region Name</label>
+      <input
+        type="text"
+        [value]="newName()"
+        (input)="newName.set($any($event.target).value)"
+        maxlength="50"
+        placeholder="e.g. Kanto"
+        autofocus
+      />
+    </div>
+
+    <div class="form-row">
+      <div class="form-group">
+        <label>Map Width (cells)</label>
+        <input
+          type="number"
+          min="20"
+          max="200"
+          [value]="newWidth()"
+          (input)="newWidth.set(+$any($event.target).value)"
+        />
+      </div>
+      <div class="form-group">
+        <label>Map Height (cells)</label>
+        <input
+          type="number"
+          min="20"
+          max="200"
+          [value]="newHeight()"
+          (input)="newHeight.set(+$any($event.target).value)"
+        />
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label>Map Style</label>
+      <div class="style-choice">
+        <label class="style-option" [class.active]="newStyle() === 'rs'">
+          <input type="radio" name="newstyle" value="rs" [checked]="newStyle() === 'rs'" (change)="newStyle.set('rs')" />
+          <div>
+            <span>Ruby / Sapphire</span>
+            <small>Bright, vibrant GBA style</small>
+          </div>
+        </label>
+        <label class="style-option" [class.active]="newStyle() === 'dp'">
+          <input type="radio" name="newstyle" value="dp" [checked]="newStyle() === 'dp'" (change)="newStyle.set('dp')" />
+          <div>
+            <span>Diamond / Pearl</span>
+            <small>Muted, earthy NDS style</small>
+          </div>
+        </label>
+      </div>
+    </div>
+
+    <div style="display:flex;gap:8px;justify-content:flex-end;margin-top:16px">
+      <button class="btn-ghost" (click)="showNewRegionDialog.set(false)">Cancel</button>
+      <button class="btn-primary" (click)="createRegion()">Create Region</button>
+    </div>
+  </app-modal>
+}

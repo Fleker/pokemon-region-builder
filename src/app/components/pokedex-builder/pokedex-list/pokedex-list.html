@@ -1,0 +1,66 @@
+<div class="dex-list-wrap">
+  <div class="dex-header">
+    <span class="panel-title">Regional Pokédex ({{ pokedex().length }})</span>
+    <button class="btn-primary btn-sm" (click)="showAddModal.set(true)">+ Add Pokémon</button>
+  </div>
+
+  <div
+    class="dex-list"
+    cdkDropList
+    (cdkDropListDropped)="onDrop($event)"
+  >
+    @for (entry of pokedex(); track entry.pokemonId) {
+      <div
+        class="dex-entry"
+        cdkDrag
+      >
+        <div class="drag-handle" cdkDragHandle>⠿</div>
+        <span class="dex-num">#{{ entry.dexNumber | number:'3.0-0' }}</span>
+        <img
+          class="dex-sprite"
+          [src]="getSpriteUrl(entry.pokemonId)"
+          [alt]="getDisplayName(entry.pokemonId)"
+          width="40" height="40"
+          (error)="imgError($event)"
+        />
+        <div class="dex-info">
+          <div class="dex-name">{{ getDisplayName(entry.pokemonId) }}</div>
+          <div class="dex-types">
+            @for (t of getTypes(entry.pokemonId); track t) {
+              <span class="type-badge" [style.background]="typeColor(t)">{{ t }}</span>
+            }
+            @if (entry.isCustom) {
+              <span class="chip custom-tag">Fan-made</span>
+            }
+            @if (entry.isRegional) {
+              <span class="chip regional-tag">Regional</span>
+            }
+          </div>
+        </div>
+        <button class="btn-icon dex-remove" (click)="remove(entry.pokemonId)" title="Remove">✕</button>
+
+        <!-- Drag placeholder -->
+        <div *cdkDragPlaceholder class="dex-drag-placeholder"></div>
+      </div>
+    }
+
+    @if (pokedex().length === 0) {
+      <div class="dex-empty">
+        <p>No Pokémon in the dex yet.</p>
+        <button class="btn-primary" (click)="showAddModal.set(true)">+ Add Pokémon</button>
+      </div>
+    }
+  </div>
+</div>
+
+@if (showAddModal()) {
+  <app-modal title="Add Pokémon" [wide]="true" (closed)="showAddModal.set(false)">
+    <div style="height: 500px; display: flex; flex-direction: column;">
+      <app-pokemon-selector
+        [selectedIds]="pokedexIds()"
+        [multiSelect]="true"
+        (selectionChange)="onAddSelection($event)"
+      ></app-pokemon-selector>
+    </div>
+  </app-modal>
+}

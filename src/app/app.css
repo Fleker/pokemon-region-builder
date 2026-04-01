@@ -1,0 +1,55 @@
+.app-shell {
+  display: flex;
+  flex-direction: column;
+  height: 100dvh;
+  overflow: hidden;
+}
+
+.app-content {
+  flex: 1;
+  display: flex;
+  overflow: hidden;
+}
+
+/* New region dialog styles */
+.style-choice {
+  display: flex;
+  gap: 8px;
+}
+
+.style-option {
+  flex: 1;
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  padding: 10px 12px;
+  background: var(--color-bg);
+  border: 2px solid var(--color-border);
+  border-radius: var(--radius);
+  cursor: pointer;
+  transition: border-color 0.15s;
+  text-transform: none;
+  font-size: 13px;
+  color: var(--color-text);
+  letter-spacing: 0;
+  font-weight: 600;
+}
+
+.style-option.active {
+  border-color: var(--color-accent);
+  background: rgba(233, 69, 96, 0.08);
+}
+
+.style-option input[type="radio"] {
+  width: auto;
+  margin: 2px 0 0 0;
+  accent-color: var(--color-accent);
+}
+
+.style-option small {
+  display: block;
+  color: var(--color-text-muted);
+  font-size: 11px;
+  font-weight: 400;
+  margin-top: 2px;
+}

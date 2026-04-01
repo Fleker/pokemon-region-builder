@@ -1,0 +1,73 @@
+@if (landmark) {
+  <app-modal [title]="'Edit Landmark'" [wide]="showPokemonSelector()" (closed)="closed.emit()">
+    <div class="le-root" [class.with-selector]="showPokemonSelector()">
+      <!-- Left: details -->
+      <div class="le-details">
+        <div class="form-group">
+          <label>Name</label>
+          <input
+            type="text"
+            [value]="landmark.name"
+            (input)="updateName($any($event.target).value)"
+            maxlength="50"
+            placeholder="e.g. Pallet Town"
+          />
+        </div>
+
+        <div class="form-group">
+          <label>Description</label>
+          <textarea
+            rows="3"
+            [value]="landmark.description"
+            (input)="updateDescription($any($event.target).value)"
+            placeholder="A small town with a big story..."
+          ></textarea>
+        </div>
+
+        <div class="form-group">
+          <label>Type</label>
+          <span class="chip">{{ landmark.type }}</span>
+          &nbsp;
+          <span class="chip">{{ landmark.width }}×{{ landmark.height }}</span>
+        </div>
+
+        <hr/>
+
+        <!-- Pokemon list -->
+        <div class="le-section-title">
+          Pokémon ({{ pokemon.length }})
+          <button class="btn-secondary btn-sm" (click)="showPokemonSelector.set(!showPokemonSelector())">
+            {{ showPokemonSelector() ? '✕ Close' : '+ Add' }}
+          </button>
+        </div>
+
+        <div class="le-pokemon-list">
+          @for (id of pokemon; track id) {
+            <div class="le-pkmn-chip">
+              <img [src]="getSpriteUrl(id)" [alt]="getDisplayName(id)" width="32" height="32" (error)="imgError($event)" />
+              <span>{{ getDisplayName(id) }}</span>
+              <button class="btn-icon" (click)="removePokemon(id)" title="Remove">✕</button>
+            </div>
+          }
+          @if (pokemon.length === 0) {
+            <p class="empty-hint">No Pokémon assigned. Click "+ Add" to assign.</p>
+          }
+        </div>
+
+        <hr/>
+        <button class="btn-ghost full-w danger" (click)="deleteLandmark()">🗑 Delete Landmark</button>
+      </div>
+
+      <!-- Right: Pokemon selector -->
+      @if (showPokemonSelector()) {
+        <div class="le-selector">
+          <app-pokemon-selector
+            [selectedIds]="pokemon"
+            [multiSelect]="true"
+            (selectionChange)="onPokemonSelectionChange($event)"
+          ></app-pokemon-selector>
+        </div>
+      }
+    </div>
+  </app-modal>
+}

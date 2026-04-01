@@ -1,0 +1,71 @@
+<div class="ps-root">
+  <!-- Filters -->
+  <div class="ps-filters">
+    <input
+      type="text"
+      placeholder="Search Pokémon..."
+      [value]="searchQuery()"
+      (input)="onSearch($any($event.target).value)"
+    />
+    <div class="ps-type-chips">
+      <button
+        class="chip"
+        [class.active]="typeFilter() === null"
+        (click)="setType(null)"
+      >All</button>
+      @for (t of types; track t) {
+        <button
+          class="chip"
+          [class.active]="typeFilter() === t"
+          [style.border-color]="typeColor(t)"
+          [style.background]="typeFilter() === t ? typeColor(t) : ''"
+          (click)="setType(t)"
+        >{{ t }}</button>
+      }
+    </div>
+  </div>
+
+  <!-- Status -->
+  @if (loading()) {
+    <div class="ps-status">Loading Pokémon data...</div>
+  } @else if (loadingTypeFilter()) {
+    <div class="ps-status">Loading type data...</div>
+  } @else if (error()) {
+    <div class="ps-status ps-error">{{ error() }}</div>
+  }
+
+  <!-- Grid -->
+  <div class="ps-grid">
+    @for (p of pageItems(); track p.id) {
+      <button
+        class="ps-card"
+        [class.selected]="isSelected(p.id)"
+        (click)="toggle(p.id)"
+        [title]="p.displayName"
+      >
+        <img
+          [src]="p.spriteUrl"
+          [alt]="p.displayName"
+          width="48" height="48"
+          (error)="imgError($event)"
+        />
+        <span class="ps-name">{{ p.displayName }}</span>
+        @if (isSelected(p.id)) {
+          <span class="ps-check">✓</span>
+        }
+      </button>
+    }
+    @if (pageItems().length === 0 && !loading()) {
+      <div class="ps-empty">No Pokémon found.</div>
+    }
+  </div>
+
+  <!-- Pagination -->
+  @if (totalPages() > 1) {
+    <div class="ps-pagination">
+      <button class="btn-ghost" (click)="prevPage()" [disabled]="page() === 0">‹</button>
+      <span>{{ page() + 1 }} / {{ totalPages() }}</span>
+      <button class="btn-ghost" (click)="nextPage()" [disabled]="page() === totalPages() - 1">›</button>
+    </div>
+  }
+</div>

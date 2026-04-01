@@ -1,0 +1,14 @@
+<div class="canvas-wrap">
+  <canvas
+    #mapCanvas
+    class="map-canvas"
+    [style.cursor]="drawingState.activeLayer === 'terrain' ? 'none' : (spaceDown ? 'grab' : 'crosshair')"
+    (mousedown)="onMouseDown($event)"
+    (mousemove)="onMouseMove($event)"
+    (mouseup)="onMouseUp($event)"
+    (mouseleave)="onMouseLeave($event)"
+    (contextmenu)="onContextMenu($event)"
+    (wheel)="onWheel($event)"
+    (click)="onClick($event)"
+  ></canvas>
+</div>

@@ -1,0 +1,124 @@
+.ps-root {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  height: 100%;
+}
+
+.ps-filters {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.ps-type-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+
+.ps-type-chips .chip {
+  cursor: pointer;
+  padding: 2px 8px;
+  font-size: 11px;
+  text-transform: capitalize;
+  transition: background 0.15s, border-color 0.15s;
+}
+
+.ps-type-chips .chip.active {
+  color: #fff;
+}
+
+.ps-status {
+  text-align: center;
+  color: var(--color-text-muted);
+  padding: 8px;
+  font-size: 13px;
+}
+
+.ps-error { color: var(--color-error); }
+
+.ps-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+  gap: 6px;
+  overflow-y: auto;
+  flex: 1;
+  padding-right: 2px;
+}
+
+.ps-empty {
+  grid-column: 1/-1;
+  text-align: center;
+  color: var(--color-text-muted);
+  padding: 20px;
+}
+
+.ps-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  padding: 6px 4px;
+  background: var(--color-bg);
+  border: 2px solid transparent;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: border-color 0.15s, background 0.15s;
+}
+
+.ps-card:hover {
+  background: var(--color-panel);
+  border-color: var(--color-text-muted);
+  filter: none;
+}
+
+.ps-card.selected {
+  border-color: var(--color-accent);
+  background: rgba(233, 69, 96, 0.15);
+}
+
+.ps-card img {
+  width: 48px;
+  height: 48px;
+  image-rendering: pixelated;
+}
+
+.ps-name {
+  font-size: 10px;
+  text-align: center;
+  color: var(--color-text-muted);
+  line-height: 1.2;
+  max-width: 72px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.ps-card.selected .ps-name { color: var(--color-text); }
+
+.ps-check {
+  position: absolute;
+  top: 3px;
+  right: 3px;
+  background: var(--color-accent);
+  color: #fff;
+  border-radius: 50%;
+  width: 16px;
+  height: 16px;
+  font-size: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
+}
+
+.ps-pagination {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  font-size: 13px;
+  flex-shrink: 0;
+}

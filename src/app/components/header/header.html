@@ -1,0 +1,63 @@
+<header class="app-header">
+  <!-- Logo -->
+  <div class="header-logo">
+    <span class="logo-text">PKMNRegions</span>
+  </div>
+
+  <!-- Region name -->
+  <div class="header-region">
+    @if (editingName()) {
+      <input
+        class="region-name-input"
+        [value]="nameInput()"
+        (input)="nameInput.set($any($event.target).value)"
+        (keydown.enter)="saveNameEdit()"
+        (blur)="saveNameEdit()"
+        autofocus
+        maxlength="50"
+      />
+    } @else {
+      <button class="region-name-btn" (click)="startEditName()" title="Click to rename">
+        {{ regionName }}
+        <span class="edit-icon">✏</span>
+      </button>
+    }
+    @if (state.hasUnsavedChanges()) {
+      <span class="unsaved-dot" title="Unsaved changes"></span>
+    }
+  </div>
+
+  <!-- Mode tabs -->
+  <nav class="header-tabs">
+    <button
+      class="tab-btn"
+      [class.active]="mode === 'map'"
+      (click)="modeChange.emit('map')"
+    >🗺 Map Maker</button>
+    <button
+      class="tab-btn"
+      [class.active]="mode === 'dex'"
+      (click)="modeChange.emit('dex')"
+    >📖 Pokédex</button>
+  </nav>
+
+  <!-- Actions -->
+  <div class="header-actions">
+    <button class="btn-secondary" (click)="newRegion.emit()">+ New Region</button>
+
+    <div class="export-menu-wrap">
+      <button class="btn-primary" (click)="toggleExportMenu()">Export ▾</button>
+      @if (exportMenuOpen()) {
+        <div class="export-dropdown">
+          <button (click)="saveFile()">💾 Save File (.pkregion)</button>
+          <button (click)="loadFile()">📂 Load File</button>
+          <hr/>
+          <button (click)="exportMap()">🖼 Export Map (PNG)</button>
+          <button (click)="exportDex()">📋 Export Dex (TXT)</button>
+          <hr/>
+          <button (click)="copyShareUrl()">🔗 Copy Share URL</button>
+        </div>
+      }
+    </div>
+  </div>
+</header>

@@ -1,0 +1,11 @@
+<div class="modal-backdrop" (click)="onBackdropClick($event)">
+  <div class="modal-box" [class.modal-wide]="wide" role="dialog" [attr.aria-label]="title">
+    <div class="modal-header">
+      <span class="modal-title">{{ title }}</span>
+      <button class="btn-icon modal-close" (click)="closed.emit()" aria-label="Close">✕</button>
+    </div>
+    <div class="modal-body">
+      <ng-content></ng-content>
+    </div>
+  </div>
+</div>

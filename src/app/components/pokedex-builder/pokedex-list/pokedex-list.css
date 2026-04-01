@@ -1,0 +1,125 @@
+.dex-list-wrap {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  overflow: hidden;
+}
+
+.dex-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 14px;
+  border-bottom: 1px solid var(--color-border);
+  flex-shrink: 0;
+}
+
+.btn-sm { padding: 4px 10px; font-size: 12px; }
+
+.dex-list {
+  overflow-y: auto;
+  flex: 1;
+  padding: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.dex-entry {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--color-bg);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  padding: 6px 10px;
+  cursor: default;
+  transition: background 0.1s;
+}
+
+.dex-entry:hover { background: var(--color-panel); }
+
+.drag-handle {
+  color: var(--color-text-muted);
+  cursor: grab;
+  font-size: 18px;
+  line-height: 1;
+  user-select: none;
+}
+
+.drag-handle:active { cursor: grabbing; }
+
+.dex-num {
+  font-family: var(--font-pixel);
+  font-size: 8px;
+  color: var(--color-text-muted);
+  min-width: 36px;
+}
+
+.dex-sprite {
+  width: 40px;
+  height: 40px;
+  image-rendering: pixelated;
+  flex-shrink: 0;
+}
+
+.dex-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.dex-name {
+  font-weight: 700;
+  font-size: 13px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.dex-types {
+  display: flex;
+  gap: 4px;
+  flex-wrap: wrap;
+  margin-top: 2px;
+}
+
+.custom-tag { color: var(--color-accent2); border-color: var(--color-accent2); }
+.regional-tag { color: #9d8ee6; border-color: #9d8ee6; }
+
+.dex-remove {
+  color: var(--color-text-muted);
+  font-size: 13px;
+  opacity: 0.5;
+}
+.dex-remove:hover { opacity: 1; color: var(--color-error); }
+
+.dex-drag-placeholder {
+  height: 54px;
+  background: var(--color-panel);
+  border: 1px dashed var(--color-border);
+  border-radius: var(--radius-sm);
+}
+
+.dex-empty {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  color: var(--color-text-muted);
+  padding: 40px;
+}
+
+/* CDK drag preview */
+.cdk-drag-preview {
+  background: var(--color-surface);
+  border: 1px solid var(--color-accent);
+  border-radius: var(--radius-sm);
+  box-shadow: var(--shadow);
+  opacity: 0.9;
+}
+
+.cdk-drag-animating {
+  transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
+}
