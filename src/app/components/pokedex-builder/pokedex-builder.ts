@@ -21,10 +21,19 @@ export class PokedexBuilderComponent {
   customPokemon   = computed(() => this.state.customPokemon());
 
   pokemonWithMove(moveId: string): CustomPokemon[] {
-    return this.customPokemon().filter(p => p.moves.includes(moveId));
+    const name = this.customMoves().find(m => m.id === moveId)?.name ?? '';
+    return this.customPokemon().filter(p =>
+      p.moves.some(m => m === moveId || (name && m.toLowerCase() === name.toLowerCase()))
+    );
   }
 
   pokemonWithAbility(abilityId: string): CustomPokemon[] {
-    return this.customPokemon().filter(p => p.abilities.includes(abilityId));
+    const name = this.customAbilities().find(a => a.id === abilityId)?.name ?? '';
+    return this.customPokemon().filter(p =>
+      p.abilities.some(a => a === abilityId || (name && a.toLowerCase() === name.toLowerCase()))
+    );
   }
+
+  removeMove(id: string)    { this.state.removeCustomMove(id); }
+  removeAbility(id: string) { this.state.removeCustomAbility(id); }
 }

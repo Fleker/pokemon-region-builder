@@ -37,6 +37,7 @@
           }
           @if (pokemonWithMove(move.id).length === 0) {
             <span class="ref-unused">unused</span>
+            <button class="btn-icon danger micro" (click)="removeMove(move.id)" title="Remove unused move">🗑</button>
           }
         </div>
       </div>
@@ -59,6 +60,7 @@
           }
           @if (pokemonWithAbility(ability.id).length === 0) {
             <span class="ref-unused">unused</span>
+            <button class="btn-icon danger micro" (click)="removeAbility(ability.id)" title="Remove unused ability">🗑</button>
           }
         </div>
       </div>
