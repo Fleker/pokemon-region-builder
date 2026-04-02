@@ -17,6 +17,7 @@ export interface DrawingState {
   brushRadius: number;
   pendingLandmarkSize: 1 | 2;
   pendingLandmarkType: LandmarkType;
+  backgroundVisible: boolean;
 }
 
 @Component({
@@ -212,7 +213,7 @@ export class MapCanvasComponent implements AfterViewInit, OnDestroy {
     const w = map.width * this.cellSize;
     const h = map.height * this.cellSize;
 
-    if (this.bgImage) {
+    if (this.bgImage && this.drawingState.backgroundVisible) {
       const t = map.backgroundTransform;
       ctx.save();
       ctx.translate(w / 2 + t.offsetX, h / 2 + t.offsetY);

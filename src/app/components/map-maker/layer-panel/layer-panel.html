@@ -156,8 +156,13 @@
         <button class="btn-secondary full-w" (click)="uploadBackground()">Upload Image</button>
       </div>
       @if (state.mapData().background) {
-        <div class="form-group">
-          <button class="btn-ghost full-w" (click)="clearBackground()">Remove Image</button>
+        <div class="form-group" style="display:flex;gap:6px">
+          <button
+            class="tool-btn full-w"
+            [class.active]="drawingState.backgroundVisible"
+            (click)="toggleBackgroundVisible()"
+          >{{ drawingState.backgroundVisible ? '👁 Visible' : '🙈 Hidden' }}</button>
+          <button class="btn-ghost full-w" (click)="clearBackground()">Remove</button>
         </div>
         <div class="form-group">
           <label>Offset X</label>

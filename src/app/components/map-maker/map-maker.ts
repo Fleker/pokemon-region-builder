@@ -12,6 +12,7 @@ const DEFAULT_DRAWING_STATE: DrawingState = {
   brushRadius: 1.5,
   pendingLandmarkSize: 1,
   pendingLandmarkType: 'town',
+  backgroundVisible: true,
 };
 
 @Component({

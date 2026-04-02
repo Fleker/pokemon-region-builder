@@ -96,6 +96,10 @@ export class LayerPanelComponent {
     this.state.setMapStyle(style);
   }
 
+  toggleBackgroundVisible() {
+    this.emit({ ...this.drawingState, backgroundVisible: !this.drawingState.backgroundVisible });
+  }
+
   uploadBackground() {
     const input = document.createElement('input');
     input.type = 'file';
