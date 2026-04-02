@@ -1,6 +1,10 @@
+:host {
+  display: block;
+  flex-shrink: 0;
+}
+
 .bc-root {
   border-top: 1px solid var(--color-border);
-  flex-shrink: 0;
 }
 
 .bc-toggle {
@@ -37,8 +41,6 @@
 .bc-body {
   padding: 12px 14px;
   background: var(--color-bg);
-  max-height: 300px;
-  overflow-y: auto;
 }
 
 .bc-section-title {

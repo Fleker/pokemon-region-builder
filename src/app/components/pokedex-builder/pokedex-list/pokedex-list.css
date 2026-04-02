@@ -1,8 +1,10 @@
+:host {
+  display: block;
+}
+
 .dex-list-wrap {
   display: flex;
   flex-direction: column;
-  height: 100%;
-  overflow: hidden;
 }
 
 .dex-header {
@@ -17,8 +19,6 @@
 .btn-sm { padding: 4px 10px; font-size: 12px; }
 
 .dex-list {
-  overflow-y: auto;
-  flex: 1;
   padding: 8px;
   display: flex;
   flex-direction: column;
