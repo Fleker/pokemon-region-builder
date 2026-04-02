@@ -1,12 +1,69 @@
 <div class="pokedex-builder">
-  <!-- Left: Dex list -->
+
+  <!-- Left: Dex list + balance -->
   <div class="dex-panel">
     <app-pokedex-list></app-pokedex-list>
     <app-balance-check></app-balance-check>
   </div>
 
-  <!-- Right: Custom Pokemon editor -->
+  <!-- Centre: Custom Pokémon grid -->
   <div class="editor-panel">
     <app-pokemon-editor></app-pokemon-editor>
   </div>
+
+  <!-- Right: Custom moves & abilities reference -->
+  <div class="ref-panel">
+
+    <div class="ref-section-title">Custom Moves</div>
+
+    @if (customMoves().length === 0) {
+      <p class="ref-empty">No custom moves yet.</p>
+    }
+    @for (move of customMoves(); track move.id) {
+      <div class="ref-card">
+        <div class="ref-card-name">{{ move.name }}</div>
+        <div class="ref-card-meta">
+          {{ move.type }} · {{ move.category }}
+          @if (move.power != null) { · Pwr {{ move.power }} }
+          @if (move.accuracy != null) { · {{ move.accuracy }}% }
+          · {{ move.pp }} PP
+        </div>
+        @if (move.description) {
+          <div class="ref-card-desc">{{ move.description }}</div>
+        }
+        <div class="ref-card-users">
+          @for (p of pokemonWithMove(move.id); track p.id) {
+            <span class="chip">{{ p.name }}</span>
+          }
+          @if (pokemonWithMove(move.id).length === 0) {
+            <span class="ref-unused">unused</span>
+          }
+        </div>
+      </div>
+    }
+
+    <div class="ref-section-title" style="margin-top: 8px">Custom Abilities</div>
+
+    @if (customAbilities().length === 0) {
+      <p class="ref-empty">No custom abilities yet.</p>
+    }
+    @for (ability of customAbilities(); track ability.id) {
+      <div class="ref-card">
+        <div class="ref-card-name">{{ ability.name }}</div>
+        @if (ability.description) {
+          <div class="ref-card-desc">{{ ability.description }}</div>
+        }
+        <div class="ref-card-users">
+          @for (p of pokemonWithAbility(ability.id); track p.id) {
+            <span class="chip">{{ p.name }}</span>
+          }
+          @if (pokemonWithAbility(ability.id).length === 0) {
+            <span class="ref-unused">unused</span>
+          }
+        </div>
+      </div>
+    }
+
+  </div>
+
 </div>
