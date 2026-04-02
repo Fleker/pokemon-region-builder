@@ -196,8 +196,9 @@ export class MapCanvasComponent implements AfterViewInit, OnDestroy {
     ctx.save();
     ctx.translate(Math.round(this.panX), Math.round(this.panY));
 
+    this.drawBgFill(ctx, map);     // solid color — always the base
     this.drawWater(ctx, map);
-    this.drawBackground(ctx, map); // background image above water
+    this.drawBgImage(ctx, map);    // image above water, only when visible
     this.drawTerrain(ctx, map);
     this.drawPaths(ctx, map);
     this.drawLandmarks(ctx, map);
@@ -209,22 +210,22 @@ export class MapCanvasComponent implements AfterViewInit, OnDestroy {
     this.drawBrushCursor(ctx);
   }
 
-  private drawBackground(ctx: CanvasRenderingContext2D, map: MapData) {
+  private drawBgFill(ctx: CanvasRenderingContext2D, map: MapData) {
+    ctx.fillStyle = DEFAULT_BG_COLORS[map.style];
+    ctx.fillRect(0, 0, map.width * this.cellSize, map.height * this.cellSize);
+  }
+
+  private drawBgImage(ctx: CanvasRenderingContext2D, map: MapData) {
+    if (!this.bgImage || !this.drawingState.backgroundVisible) return;
     const w = map.width * this.cellSize;
     const h = map.height * this.cellSize;
-
-    if (this.bgImage && this.drawingState.backgroundVisible) {
-      const t = map.backgroundTransform;
-      ctx.save();
-      ctx.translate(w / 2 + t.offsetX, h / 2 + t.offsetY);
-      ctx.rotate((t.rotation * Math.PI) / 180);
-      ctx.scale(t.scale, t.scale);
-      ctx.drawImage(this.bgImage, -w / 2, -h / 2, w, h);
-      ctx.restore();
-    } else {
-      ctx.fillStyle = DEFAULT_BG_COLORS[map.style];
-      ctx.fillRect(0, 0, w, h);
-    }
+    const t = map.backgroundTransform;
+    ctx.save();
+    ctx.translate(w / 2 + t.offsetX, h / 2 + t.offsetY);
+    ctx.rotate((t.rotation * Math.PI) / 180);
+    ctx.scale(t.scale, t.scale);
+    ctx.drawImage(this.bgImage, -w / 2, -h / 2, w, h);
+    ctx.restore();
   }
 
   private drawTerrain(ctx: CanvasRenderingContext2D, map: MapData) {
