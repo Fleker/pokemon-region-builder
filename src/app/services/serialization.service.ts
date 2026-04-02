@@ -114,6 +114,7 @@ export class SerializationService {
 
         lines.push(`${num}  ${cp.name} ★${regional}`);
         lines.push(div2);
+        if (cp.description) lines.push(`  "${cp.description}"`);
         lines.push(`  Type:    ${types}`);
         if (entry.isRegional && cp.baseFormId) {
           const baseName = pokemonNames.get(cp.baseFormId) ?? String(cp.baseFormId);

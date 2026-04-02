@@ -59,6 +59,16 @@
           <input type="text" [value]="name()" (input)="name.set($any($event.target).value)" maxlength="30" placeholder="e.g. Flamewolf" />
         </div>
 
+        <div class="form-group">
+          <label>Pokédex Description</label>
+          <textarea rows="3"
+            [value]="description()"
+            (input)="description.set($any($event.target).value)"
+            maxlength="300"
+            placeholder="e.g. This Pokémon breathes jets of fire hot enough to melt boulders."
+          ></textarea>
+        </div>
+
         <div class="form-row">
           <div class="form-group">
             <label>Type 1</label>

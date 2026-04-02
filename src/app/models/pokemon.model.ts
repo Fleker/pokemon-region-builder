@@ -43,6 +43,7 @@ export interface CustomAbility {
 export interface CustomPokemon {
   id: string; // "custom-<uuid>"
   name: string;
+  description: string; // Pokédex flavor text
   types: [string, string | null];
   height: number; // meters
   weight: number; // kg

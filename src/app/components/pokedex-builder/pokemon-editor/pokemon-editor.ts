@@ -28,6 +28,7 @@ export class PokemonEditorComponent {
 
   // Form state
   name = signal('');
+  description = signal('');
   type1 = signal('normal');
   type2 = signal<string | null>(null);
   height = signal(1.0);
@@ -65,6 +66,7 @@ export class PokemonEditorComponent {
     if (!cp) return;
     this.editTarget.set(id);
     this.name.set(cp.name);
+    this.description.set(cp.description ?? '');
     this.type1.set(cp.types[0]);
     this.type2.set(cp.types[1]);
     this.height.set(cp.height);
@@ -79,6 +81,7 @@ export class PokemonEditorComponent {
 
   private resetForm() {
     this.name.set('');
+    this.description.set('');
     this.type1.set('normal');
     this.type2.set(null);
     this.height.set(1.0);
@@ -172,6 +175,7 @@ export class PokemonEditorComponent {
     const cp: CustomPokemon = {
       id: this.editTarget() ?? generateId(),
       name: n,
+      description: this.description().trim(),
       types: [this.type1(), this.type2()],
       height: this.height(),
       weight: this.weight(),
