@@ -110,41 +110,41 @@ export function migrateTerrainToGrid(map: MapData): MapData {
 export const TERRAIN_LABELS = ['Light Grass', 'Medium Grass', 'Dark Grass', 'Forest', 'Mountain'];
 
 export const TERRAIN_COLORS: Record<MapStyle, string[]> = {
-  rs: ['#a8d850', '#78b030', '#4e8018', '#305010', '#906040'],
-  dp: ['#98c840', '#689020', '#405818', '#283808', '#705030'],
+  rs: ['#96d454', '#7dc23d', '#4c8505', '#64a726', '#906040'],
+  dp: ['#87c846', '#59900e', '#6fad2e', '#6eaf2f', '#906040'],
 };
 
 /** Pre-parsed RGB values for fast ImageData writes (avoids hex parsing at render time). */
 export const TERRAIN_RGB: Record<MapStyle, [number, number, number][]> = {
   rs: [
-    [168, 216, 80],
-    [120, 176, 48],
-    [78, 128, 24],
-    [48, 80, 16],
+    [150, 212, 84],
+    [125, 194, 61],
+    [76, 133, 5],
+    [100, 167, 38],
     [144, 96, 64],
   ],
   dp: [
-    [152, 200, 64],
-    [104, 144, 32],
-    [64, 88, 24],
-    [40, 56, 8],
-    [112, 80, 48],
+    [135, 200, 70],
+    [89, 144, 14],
+    [111, 173, 46],
+    [110, 175, 47],
+    [144, 96, 64],
   ],
 };
 
 export const WATER_COLORS: Record<MapStyle, string> = {
-  rs: '#4890e8',
-  dp: '#3070d0',
+  rs: '#26a7c2',
+  dp: '#3fc8d8',
 };
 
 export const PATH_COLORS: Record<MapStyle, string> = {
-  rs: '#d8c080',
-  dp: '#c0a868',
+  rs: '#f7a735cc', // With transparency
+  dp: '#f7c856cc',
 };
 
 export const DEFAULT_BG_COLORS: Record<MapStyle, string> = {
-  rs: '#b8e060',
-  dp: '#a8d050',
+  rs: '#859618',
+  dp: '#8fa020',
 };
 
 export const LANDMARK_TYPE_LABELS: Record<LandmarkType, string> = {

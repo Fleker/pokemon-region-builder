@@ -275,8 +275,25 @@ export class MapCanvasComponent implements AfterViewInit, OnDestroy {
     const w = lm.width * cs, h = lm.height * cs;
 
     const isCity = lm.type === 'city' || lm.type === 'town';
-    const outer = isCity ? '#3aaa5a' : '#cc2233';
-    const inner = isCity ? '#ffe820' : '#2255ee';
+    let outer: string, inner: string;
+
+    switch (lm.type) {
+      case 'city':
+        outer = '#ff9ca1'
+        inner = '#ee5c5c'
+        break;
+      case 'town':
+        outer = '#96b0ee'
+        inner = '#647df7'
+        break;
+      case 'route':
+        outer = '#f5a568'
+        inner = '#f8bf6e'
+        break;
+      default:
+        outer = '#e0e0e0'
+        inner = '#8fd027'
+    }
 
     const r = Math.min(4, cs * 0.2);
     ctx.fillStyle = outer;
