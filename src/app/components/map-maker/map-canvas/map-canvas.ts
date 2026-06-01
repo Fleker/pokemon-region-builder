@@ -453,6 +453,8 @@ export class MapCanvasComponent implements AfterViewInit, OnDestroy {
 
   @HostListener('document:keydown', ['$event'])
   onKeyDown(e: KeyboardEvent) {
+    const tag = (e.target as HTMLElement)?.tagName;
+    if (tag === 'INPUT' || tag === 'TEXTAREA') return;
     if (e.code === 'Space') { this.spaceDown = true; e.preventDefault(); }
   }
 
